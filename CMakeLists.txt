@@ -1,0 +1,92 @@
+cmake_minimum_required(VERSION 3.10)
+
+set(ENABLE_BOOST_TESTS OFF)
+set(ENABLE_GTEST ON)
+
+# fis boost find module warning
+if(POLICY CMP0167)
+  cmake_policy(SET CMP0167 NEW)
+endif()
+
+set(project_name "otus_hw_1")
+project(${project_name})
+set(project_lib_name "otus_hw_1_lib")
+set(project_tests_name "otus_hw_1_tests")
+
+find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+
+enable_testing()
+find_package(GTest REQUIRED)
+
+set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
+set(FULL_VERSION 0.0.${PATCH_VERSION})
+
+message(STATUS "Full version: ${FULL_VERSION}")
+
+configure_file(version.h.in version.h)
+
+add_executable(${project_name} 
+	main.cc
+)
+
+add_library(${project_lib_name} 
+	lib.cc
+)
+
+target_include_directories(${project_lib_name} PRIVATE 
+	${CMAKE_CURRENT_BINARY_DIR}
+)
+
+target_link_libraries(${project_name}
+	${project_lib_name}
+)
+
+set_target_properties(${project_name} ${project_lib_name} PROPERTIES
+	CXX_STANDARD 14
+	CXX_STANDARD_REQUIRED ON
+)
+
+if (ENABLE_GTEST)
+	add_executable(${project_tests_name}
+		test_version.cc
+	)
+	set_target_properties(${project_tests_name} PROPERTIES
+		CXX_STANDARD 14
+		CXX_STANDARD_REQUIRED ON
+	)
+	include_directories(${GTEST_INCLUDE_DIR})
+
+	target_link_libraries(${project_tests_name} 
+		GTest::GTest 
+		GTest::Main
+		${project_lib_name}
+	)
+
+	message(STATUS "Adds test ${project_tests_name}")
+
+	add_test(
+    NAME ${project_tests_name}
+    COMMAND ${project_tests_name}
+)
+endif()
+
+if (ENABLE_BOOST_TESTS)
+	add_executable(${project_tests_name}
+		test_version.cc
+	)
+
+	set_target_properties(${project_tests_name} PROPERTIES
+		CXX_STANDARD 14
+		CXX_STANDARD_REQUIRED ON
+	)
+
+	set_target_properties(${project_tests_name} PROPERTIES
+		COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
+		INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
+	)
+
+	target_link_libraries(${project_tests_name}
+		${Boost_LIBRARIES}
+		${project_lib_name}
+	)
+endif()
