@@ -70,27 +70,6 @@ if (ENABLE_GTEST)
 )
 endif()
 
-if (ENABLE_BOOST_TESTS)
-	add_executable(${project_tests_name}
-		test_version.cc
-	)
-
-	set_target_properties(${project_tests_name} PROPERTIES
-		CXX_STANDARD 14
-		CXX_STANDARD_REQUIRED ON
-	)
-
-	set_target_properties(${project_tests_name} PROPERTIES
-		COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
-		INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
-	)
-
-	target_link_libraries(${project_tests_name}
-		${Boost_LIBRARIES}
-		${project_lib_name}
-	)
-endif()
-
 install(TARGETS ${project_name} RUNTIME DESTINATION bin)
 
 set(CPACK_GENERATOR TGZ)
