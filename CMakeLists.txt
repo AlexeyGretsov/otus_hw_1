@@ -13,8 +13,6 @@ project(${project_name})
 set(project_lib_name "otus_hw_1_lib")
 set(project_tests_name "otus_hw_1_tests")
 
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
-
 enable_testing()
 find_package(GTest REQUIRED)
 
