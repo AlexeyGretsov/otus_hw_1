@@ -24,11 +24,11 @@ jobs:
       run: ${{github.workspace}}/format.sh check
 
     - name: Configure CMake
-      run: cmake . -DPATCH_VERSION=${{ github.run_number }}
+      run: cmake -B ${{github.workspace}}/build -DPATCH_VERSION=${{ github.run_number }}
 
-    - run: cmake . 
-    - run: cmake . --target test
-    - run: cmake . --target package
+    - run: cmake -B ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target all
+    - run: cmake -B ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --targe test
+    - run: cmake -B ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --targe package
 
     - name: Create Release
       id: create_release
