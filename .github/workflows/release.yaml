@@ -52,6 +52,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./otus_hw_1-0.0.${{ github.run_number }}-Linux.tar.gz
-        asset_name: otus_hw_1-0.0.${{ github.run_number }}-Linux.tar.gz
-        asset_content_type: application/gzip
+#        asset_path: ./otus_hw_1-0.0.${{ github.run_number }}-Linux.tar.gz
+#        asset_name: otus_hw_1-0.0.${{ github.run_number }}-Linux.tar.gz
+#        asset_content_type: application/gzip
+        asset_path: ./otus_hw_1-0.0.${{ github.run_number }}-Linux.deb
+        asset_name: otus_hw_1-0.0.${{ github.run_number }}-Linux.deb
+        asset_content_type: application/vnd.debian.binary-package
