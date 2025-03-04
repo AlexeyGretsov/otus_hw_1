@@ -71,7 +71,11 @@ if (ENABLE_GTEST)
 )
 endif()
 
-install(TARGETS ${project_name} RUNTIME DESTINATION bin)
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+	install(TARGETS ${project_name} RUNTIME DESTINATION bin)
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+	install(TARGETS ${project_name} RUNTIME DESTINATION DEB)
+endif()
 
 set(CPACK_GENERATOR TGZ)
 
