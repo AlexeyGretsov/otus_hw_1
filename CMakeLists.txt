@@ -1,12 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(ENABLE_BOOST_TESTS OFF)
 set(ENABLE_GTEST ON)
-
-# fis boost find module warning
-if(POLICY CMP0167)
-  cmake_policy(SET CMP0167 NEW)
-endif()
 
 set(project_name "otus_hw_1")
 project(${project_name})
@@ -65,9 +59,7 @@ if (ENABLE_GTEST)
 
 	message(STATUS "Adds test ${project_tests_name}")
 
-	add_test(
-    NAME ${project_tests_name}
-    COMMAND ${project_tests_name}
+	add_test(NAME ${project_tests_name} COMMAND ${project_tests_name}
 )
 endif()
 
